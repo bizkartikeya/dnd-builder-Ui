@@ -16,7 +16,7 @@ import { useState } from "react";
 import { BiSolidTrash } from "react-icons/bi";
 
 const Designer = () => {
-  const { elements, addElement } = useDesigner();
+  const { elements, addElement,slectedElement,setSelectedElement } = useDesigner();
   const droppable = useDroppable({
     id: "designer-drop-area",
     data: {
@@ -43,7 +43,7 @@ const Designer = () => {
   }: {
     element: FormElementInstance;
   }) => {
-    const { removeElement } = useDesigner();
+    const { removeElement, setSelectedElement,slectedElement } = useDesigner();
     const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
     const topHalf = useDroppable({
       id: element.id + "-top",
@@ -70,6 +70,7 @@ const Designer = () => {
       },
     });
     if (draggable.isDragging) return null;
+
     const DesignerElement = FormElements[element.type].designerComponent;
 
     return (
@@ -81,7 +82,10 @@ const Designer = () => {
         onMouseEnter={() => {
           setMouseIsOver(true);
         }}
-        onMouseLeave={() => {
+        onClick={(e)=>{
+          e.stopPropagation(),
+          setSelectedElement(element)}}
+        onMouseLeave={(e) => {
           setMouseIsOver(false);
         }}
       >
@@ -95,9 +99,10 @@ const Designer = () => {
         />
         {mouseIsOver && (
           <>
-            <div className="absolute right-0 h-full">
+            <div className="absolute right-0 h-full" >
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation(),
                   removeElement(element.id);
                 }}
                 className="flex justify-center items-center h-full border rounded-md rounded-l-none bg-red-500"
@@ -128,7 +133,9 @@ const Designer = () => {
 
   return (
     <div className="flex w-full h-full">
-      <div className="p-2 w-full">
+      <div className="p-2 w-full" onClick={()=>{
+        if(slectedElement) setSelectedElement(null)
+      }}>
         <div
           ref={droppable.setNodeRef}
           className={`bg-background max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow ${

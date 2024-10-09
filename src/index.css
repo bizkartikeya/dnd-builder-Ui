@@ -102,6 +102,9 @@
 .text-foreground{
   color: hsl(var(--foreground));
 }
+.text-foreground\/70{
+  color: hsl(var(--foreground) / 0.7);
+}
 .text-muted-foreground{
   color: hsl(var(--muted-foreground))
 }

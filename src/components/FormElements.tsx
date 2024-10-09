@@ -12,7 +12,9 @@ export type FormElement = {
     elementInstance:FormElementInstance
   }>;
   formComponent: React.FC;
-  porpertiesComponent: React.FC;
+  porpertiesComponent:  React.FC<{
+    elementInstance:FormElementInstance
+  }>;
 };
 export type FormElementInstance = {
   id: string;
