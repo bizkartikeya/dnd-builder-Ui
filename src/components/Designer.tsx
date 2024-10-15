@@ -28,12 +28,39 @@ const Designer = () => {
       const { active, over } = event;
       if (!active || !over) return;
       const isDesignerBtnElement = active.data?.current?.isDesignerBtnElement;
-      if (isDesignerBtnElement) {
+      const isDroppingOverDesignerDropArea=over.data?.current?.isDesignerDropArea;
+
+      if (isDesignerBtnElement && isDroppingOverDesignerDropArea) {
         const type = active.data?.current?.type;
         const newElement = FormElements[type as ElementsType].construct(
           idGenerator()
         );
-        addElement(0, newElement);
+        addElement(elements.length, newElement);
+        return;
+      }
+const isDroppingOverDesignerElementTopHalf = over.data?.current?.isTopHalfDesignerElement;
+const isDroppingOverDesignerElementBottomHalf = over.data?.current?.isBottomHalfDesignerElement;
+const isDroppingOverDesignerElement = isDroppingOverDesignerElementTopHalf||isDroppingOverDesignerElementBottomHalf
+      const droppingSidebarBtnOverDesignerElement=isDesignerBtnElement && isDroppingOverDesignerElement
+
+
+      if(droppingSidebarBtnOverDesignerElement){
+        const type = active.data?.current?.type;
+        const newElement = FormElements[type as ElementsType].construct(
+          idGenerator()
+        );
+        const overId = over.data?.current?.elementId
+const overElementindex = elements.findIndex((el)=>el.id===overId)
+if(overElementindex===-1){
+  throw new Error("Element not found")
+}
+let indexForNewElement = overElementindex
+if (isDroppingOverDesignerElementBottomHalf){
+  indexForNewElement=overElementindex+1;
+}
+
+        addElement(indexForNewElement, newElement);
+        return;
       }
     },
   });
@@ -118,7 +145,10 @@ const Designer = () => {
           </>
         )}
         {topHalf.isOver&&(
-          <div className="bg-primary absolute top-0 w-full rounded-md h-[7px]"/>
+          <div className="bg-primary absolute top-0 w-full rounded-b-none rounded-md h-[7px]"/>
+        )}
+        {bottomHalf.isOver&&(
+          <div className="bg-primary absolute bottom-0 w-full rounded-t-none rounded-md h-[7px]"/>
         )}
         <div
           className={`flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none ${

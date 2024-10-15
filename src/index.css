@@ -1,6 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   :root {
@@ -68,45 +68,14 @@
 
     --radius: 0.5rem;
   }
- 
-  /* Apply the custom CSS variables to Tailwind utilities */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
-}
-
-@layer utilities {
-  /* Custom background and text color utilities */
-  .bg-background {
-    background-color: hsl(var(--background));
-  }
-
-  .bg-accent {
-    background-color: hsl(var(--accent));
-  }
-  .bg-primary {
-    background-color: hsl(var(--primary));
-  }
-
-  /* Primary background with 20% opacity */
-  .bg-primary\/20 {
-    background-color: hsl(var(--primary) / 0.2);
-  }
-  .text-foreground {
-    color: hsl(var(--foreground));
-  }
-.bg-accent\/40 {
-  background-color: hsl(var(--accent) / 0.4);
-}
-.text-foreground{
-  color: hsl(var(--foreground));
-}
-.text-foreground\/70{
-  color: hsl(var(--foreground) / 0.7);
-}
-.text-muted-foreground{
-  color: hsl(var(--muted-foreground))
-}
-  /* You can add other utilities here for border, accent, etc. */
 }

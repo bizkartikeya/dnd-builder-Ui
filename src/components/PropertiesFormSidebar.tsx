@@ -1,6 +1,8 @@
 import useDesigner from './hooks/useDesigner'
 import { FormElements } from './FormElements';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Separator } from './ui/separator';
+import { Button } from './ui/button';
 
 const PropertiesFormSidebar = () => {
     const {slectedElement,setSelectedElement} = useDesigner();
@@ -14,12 +16,13 @@ const PropertiesForm = FormElements[slectedElement?.type].porpertiesComponent
 Elements Properties
         </p>
 
-        <button className='outline p-1 rounded-md' onClick={()=>{
+        <Button size={"icon"} variant={"ghost"} onClick={()=>{
             setSelectedElement(null)
         }}>
             <AiOutlineClose/>
-        </button>
+        </Button>
     </div>
+    <Separator className='mb-4 border'/>
       <PropertiesForm elementInstance={slectedElement}/>
   </div>
   )
